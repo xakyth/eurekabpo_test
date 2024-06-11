@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Проверка прав пользователя</title>
+</head>
+
+<body>
+  <h1>Проверка прав пользователя</h1>
+  <form id="form">
+    <label for="username">Имя пользователя:</label>
+    <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+    <button type="submit">Проверить</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      fetch('/checkUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username })
+      })
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('result').innerText = data;
+        })
+        .catch(error => console.log('error: ', error));
+    });
+  </script>
+</body>
+
+</html>
